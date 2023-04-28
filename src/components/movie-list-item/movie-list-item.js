@@ -18,7 +18,7 @@ class MovieListItem extends React.Component{
 	}
 
 	render(){
-		const {name, viewers} = this.props;
+		const {name, viewers, onDelete} = this.props;
 		const {favourite, like} = this.state;
 
 		return(
@@ -30,7 +30,7 @@ class MovieListItem extends React.Component{
 					<i className='fas fa-cookie'></i>
 				</button>
 
-				<button type='button' className='btn-trash btn-sm '>
+				<button type='button' className='btn-trash btn-sm ' onClick={onDelete}>
 					<i className='fas fa-trash'></i>
 				</button>
 				<i className='fas fa-star'></i>
