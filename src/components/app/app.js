@@ -12,9 +12,9 @@ class	App extends Component {
 		super(props)
 		this.state = {
 			data: [
-				{ name: 'wednesday', viewers: 12000, favourite: false, id: 1},
-				{ name: 'Squid game', viewers: 32000, favourite: false, id: 2},
-				{ name: 'Avatar', viewers: 22000, favourite: true, id: 3},
+				{ name: 'wednesday', viewers: 12000, favourite: false, like: false, id: 1},
+				{ name: 'Squid game', viewers: 32000, favourite: false, like: false, id: 2},
+				{ name: 'Avatar', viewers: 22000, favourite: false, like: false, id: 3},
 			]
 		}
 	}
@@ -28,24 +28,56 @@ class	App extends Component {
 	}
 
 	addForm = (item) =>{
+		const newItem = {name: item.name, viewers: item.viewers, id: uuidv4(), favourite: false, like: false}
 		this.setState(({data}) =>{
 			return {
-				data: [...data, {...item, id: uuidv4() }]
+				data: [...data, newItem]
+			}
+		})
+	}
+
+	onToggleFavourite = (id) =>{
+		this.setState(({data}) => {
+			const newArr = data.map(item => {
+				if(item.id === id){
+					return {...item, favourite: !item.favourite}
+				} else{
+					return item;
+				}
+			})
+			return {
+				data: newArr,
+			}
+		})
+	}
+	onToggleLike = (id) => {
+		this.setState(({data}) => {
+			const newArr = data.map(item => {
+				if(item.id === id){
+					return {...item, like: !item.like}
+				} else{
+					return item;
+				}
+			})
+			return {
+				data: newArr,
 			}
 		})
 	}
 
 	render() {
 		const { data } = this.state
+		const allFilmsCount = data.length;
+		const favouriteMovieCount = data.filter(c => c.favourite).length;
 		return(
 			<div className='app font-monospace'>
 				<div className='content'>
-					<AppInfo />
+					<AppInfo allFilmsCount={allFilmsCount} favouriteMovieCount={favouriteMovieCount}/>
 					<div className='search-panel'>
 						<SearchPanel />
 						<AppFilter />
 					</div>
-					<MovieList data={data} onDelete={this.onDelete}/>
+					<MovieList onToggleFavourite={this.onToggleFavourite} onToggleLike={this.onToggleLike} data={data} onDelete={this.onDelete}/>
 					<MoviesAddForm addForm={this.addForm} />
 				</div>
 			</div>

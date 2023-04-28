@@ -1,7 +1,7 @@
 import MovieListItem from '../movie-list-item/movie-list-item'
 import './movie-list.css'
 
-const MovieList = ({ data, onDelete}) => {
+const MovieList = ({ data, onDelete, onToggleFavourite, onToggleLike}) => {
 	return (
 		<ul className='movie-list list-group'>
 			{data.map(item =>(
@@ -9,9 +9,12 @@ const MovieList = ({ data, onDelete}) => {
 					key={item.id} 
 					name={item.name} 
 					viewers={item.viewers} 
-					favourite={item.favourite} 
-					onDelete={() => onDelete(item.id)
-				}/>
+					favourite={item.favourite}
+					like={item.like}
+					onDelete={() => onDelete(item.id)}
+					onToggleFavourite={() => onToggleFavourite(item.id)}
+					onToggleLike={() => onToggleLike(item.id)}
+				/>
 			))}
 		</ul>
 	)
